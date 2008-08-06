@@ -4,7 +4,7 @@
       - if @upcoming.size > 0
         = partial "projects/parts/list", :projects => @upcoming
       - else
-        %p No upcoming applications. Submit one now!
+        %p== No upcoming #{AppConfig.directory_type.downcase}s. Submit one now!
 
     - tab "Bookmarked", "projects_add", :class => "scroll-250" do
       #my_bookmarks= partial "bookmarks/bookmark_list", :projects => @my_projects
@@ -21,7 +21,7 @@
           %span{:class => css_class, :title => "#{tag.count} projects"}
             = display_tag(tag)
 
-    - tab "Top Apps", "top_counts" do
+    - tab "#{AppConfig.top_kind}", "top_counts" do
       .counts.first
         %strong Top Downloaded
         %ul

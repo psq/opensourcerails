@@ -16,7 +16,7 @@ class Project < ActiveRecord::Base
   validates_uniqueness_of :title, :on => :create, :message => "must be unique"
 
   attr_accessible :title, :description, :author_name, :author_contact,
-                  :homepage_url, :source_url, :license, :short_description, :tag_list
+                  :homepage_url, :source_url, :license, :short_description, :tag_list, :feed_url
 
   # checkbox used to auto assign author from current_user
   attr_accessor :is_creator
@@ -199,6 +199,9 @@ class Project < ActiveRecord::Base
     end
     unless check_url(self.source_url)
       self.source_url = "http://#{self.source_url}"
+    end
+    unless check_url(self.feed_url)
+      self.feed_url = "http://#{self.feed_url}"
     end
     unless check_url(self.author_contact)
       self.author_contact = "http://#{self.author_contact}"

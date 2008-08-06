@@ -56,9 +56,9 @@ class ProjectsController < ApplicationController
       redirect_to @project
     else
       if @project.title.blank?
-        flash[:error] = "Please give the application a name."
+        flash[:error] = "Please give the #{AppConfig.directory_type} a name."
       else
-        flash[:error] = "Application name is already taken."
+        flash[:error] = "#{AppConfig.directory_type} name is already taken."
       end
       
       redirect_to :back
@@ -117,7 +117,7 @@ class ProjectsController < ApplicationController
     return unless verify_owner(@project)
 
     @project.destroy
-    flash[:notice] = %(Application "#{@project.title}" has been deleted.)    
+    flash[:notice] = %("#{AppConfig.directory_type}" "#{@project.title}" has been deleted.)    
     redirect_to root_url
   end  
   
@@ -128,9 +128,9 @@ class ProjectsController < ApplicationController
     if @project.owned_by?(current_or_anon_user)
       @project.update_attribute(:is_submitted, true)
       @project.mark_changed!
-      flash[:success] = %(Application "#{@project.title}" has been submitted. It will be shown in the "Upcoming" list until it's approved by an Admin. Adding additional screenshots and links will improve its chances of being accepted into the gallery.)
+      flash[:success] = %(#{AppConfig.directory_type} "#{@project.title}" has been submitted. It will be shown in the "Upcoming" list until it's approved by an Admin. Adding additional screenshots and links will improve its chances of being accepted into the gallery.)
     else
-      flash[:error] = "You no longer have access to this application. Your session may have expired."
+      flash[:error] = "You no longer have access to this #{AppConfig.directory_type}. Your session may have expired."
     end
     
     redirect_to @project
@@ -145,9 +145,9 @@ class ProjectsController < ApplicationController
       @project.promoted_at = Time.now
       @project.mark_changed
       @project.save!
-      flash[:success] = %(Application "#{@project.title}" has been promoted. It is now in the gallery.)
+      flash[:success] = %("#{AppConfig.directory_type}" "#{@project.title}" has been promoted. It is now in the gallery.)
     else
-      flash[:error] = "Sorry, only admins are allowed to promote an application."
+      flash[:error] = "Sorry, only admins are allowed to promote a #{AppConfig.directory_type}."
     end
 
     redirect_to root_url
@@ -260,7 +260,7 @@ class ProjectsController < ApplicationController
       
       # render an output
       respond_to do |format|        
-        flash[:error] = "You don't have access to edit this application."
+        flash[:error] = "You don't have access to edit this #{AppConfig.directory_type}."
         format.js do
           render :text => flash[:error], :layout => false
           flash.discard

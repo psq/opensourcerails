@@ -10,13 +10,17 @@
   = f.error_messages
   = f.text_field :title
   = f.text_field :short_description
-  = f.text_area :description, :label => "About this Application"
+  = f.text_area :description, :label => "About this #{AppConfig.directory_type}"
   = f.text_field :tag_list, :label => "Tags (comma separated)"
-  = f.text_field :license
+  - if AppConfig.show_license
+    = f.text_field :license
   = f.text_field :homepage_url, :label => "Home Page URL"
-  = f.text_field :source_url, :label => "Source Code URL"
+  - if AppConfig.show_feed
+    = f.text_field :feed_url, :label => "Feed URL"
+  - if AppConfig.show_source
+    = f.text_field :source_url, :label => "Source Code URL"
   = f.text_field :author_name, :label => "Author's Name"
-  = f.text_field :author_contact, :label => "Author's URL"
+  = f.text_field :author_contact, :label => "Author's Contact"
   
   
   .actions

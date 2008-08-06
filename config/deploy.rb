@@ -1,16 +1,16 @@
 # ------------
 # APP SPECIFIC SETTINGS
 # ------------
-set :application, "opensrcrails"
-set :repository, "git@github.com:jcnetdev/opensourcerails.git"
-set :server_name, "www.opensourcerails.com"
+set :application, "home-chefs.com"
+set :repository, "git@github.com:psq/opensourcerails.git"
+set :server_name, "www.home-chefs.com"
 
 set :scm, "git"
 set :checkout, "export" 
 set :deploy_via, :remote_cache
 
-set :base_path, "/var/www"
-set :deploy_to, "/var/www/production/#{application}"
+set :base_path, "/home/psq"
+set :deploy_to, "/home/psq/#{application}"
 set :apache_site_folder, "/etc/apache2/sites-enabled"
 
 set :keep_releases, 3
@@ -26,7 +26,7 @@ role :web, server_name
 role :app, server_name
 role :db,  server_name, :primary => true
 
-set :use_sudo, true
+set :use_sudo, false
 
 # saves space by only keeping last 3 when running cleanup
 set :keep_releases, 3 
@@ -59,36 +59,39 @@ namespace :deploy do
     restart
   end
   
-  desc "restart apache"
-  task :restart_apache do
-    sudo "/etc/init.d/apache2 stop"
-    sudo "/etc/init.d/apache2 start"
-  end
-
-  desc "start apache cluster"
-  task :start_apache do
-    sudo "/etc/init.d/apache2 start"
-  end
-
-  desc "stop apache cluster"
-  task :stop_apache do
-    sudo "/etc/init.d/apache2 stop"
-  end
+  # desc "restart apache"
+  # task :restart_apache do
+  #   sudo "/etc/init.d/apache2 stop"
+  #   sudo "/etc/init.d/apache2 start"
+  # end
+  # 
+  # desc "start apache cluster"
+  # task :start_apache do
+  #   sudo "/etc/init.d/apache2 start"
+  # end
+  # 
+  # desc "stop apache cluster"
+  # task :stop_apache do
+  #   sudo "/etc/init.d/apache2 stop"
+  # end
 end
 
 before "deploy:restart", "admin:migrate"
+
 after  "deploy", "live:send_request"
 
-after "deploy:setup", "init:set_permissions"
-after "deploy:setup", "init:database_yml"
-after "deploy:setup", "init:create_database"
-after "deploy:setup", "init:create_vhost"
-after "deploy:setup", "init:enable_site"
+# after "deploy:setup", "init:set_permissions"
+after "deploy:setup", "init:create_shared"
+# after "deploy:setup", "init:upload_config"
+# after "deploy:setup", "init:database_yml"
+# after "deploy:setup", "init:create_database"
+# after "deploy:setup", "init:create_vhost"
+# after "deploy:setup", "init:enable_site"
 namespace :init do
   
   desc "setting proper permissions for deploy user"
   task :set_permissions do
-    sudo "chown -R deploy /var/www/production"
+    # sudo "chown -R deploy /var/www/production"
   end
 
   desc "create mysql db"
@@ -101,11 +104,23 @@ namespace :init do
   
   desc "enable site"
   task :enable_site do 
-    sudo "ln -nsf #{shared_path}/config/apache_site.conf #{apache_site_folder}/#{application}"
-    
+    # sudo "ln -nsf #{shared_path}/config/apache_site.conf #{apache_site_folder}/#{application}"
   end
-  
-  
+
+  desc "create shared"
+  task :create_shared do
+    run "mkdir -p #{shared_path}/config"
+    run "echo place logo, tracking, database.yml and app_config.yml to #{shared_path}/config"
+  end
+
+  desc "upload config files"
+  task :upload_config do
+    upload("../#{application}/database.yml", "#{shared_path}/config/", :via => :scp)
+    upload("../#{application}/app_config.yml", "#{shared_path}/config/", :via => :scp)
+    upload("../#{application}/logo-hc.png", "#{shared_path}/config/", :via => :scp)
+    upload("../#{application}/_tracking.html.erb", "#{shared_path}/config/", :via => :scp)
+  end
+
   desc "create database.yml"
   task :database_yml do
     set :db_user, Capistrano::CLI.ui.ask("database user: ")
@@ -122,7 +137,6 @@ login: &login
 production:
   <<: *login
 )
-    run "mkdir -p #{shared_path}/config"
     put database_configuration, "#{shared_path}/config/database.yml"
   end
   
@@ -149,15 +163,21 @@ after "deploy:update_code", "localize:upload_folders"
 namespace :localize do
   desc "copy shared configurations to current"
   task :copy_shared_configurations, :roles => [:app] do
-    %w[database.yml].each do |f|
+    %w[database.yml app_config.yml].each do |f|
       run "ln -nsf #{shared_path}/config/#{f} #{release_path}/config/#{f}"
+    end
+    %w[logo-hc.png].each do |f|
+      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/public/images/#{f}"
+    end
+    %w[_tracking.html.erb].each do |f|
+      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/app/views/layout/#{f}"
     end
   end
   
   desc "installs / upgrades gem dependencies "
   task :install_gems, :roles => [:app] do
-    sudo "date" # fuck you capistrano
-    run "cd #{release_path} && sudo rake RAILS_ENV=production gems:install"
+    # sudo "date" # fuck you capistrano
+    # run "cd #{release_path} && sudo rake RAILS_ENV=production gems:install"
   end
   
   task :upload_folders, :roles => [:app] do
@@ -238,11 +258,11 @@ namespace :admin do
   end
   
   task :migrate do
-    run "cd #{current_path} && sudo rake RAILS_ENV=production db:migrate"
+    run "cd #{current_path} && rake RAILS_ENV=production db:migrate"
   end
   
   task :remote_rake do
     rake_command = Capistrano::CLI.ui.ask "Rake Command to run: "
-    run "cd #{current_path} && sudo rake RAILS_ENV=production #{rake_command}"
+    run "cd #{current_path} && rake RAILS_ENV=production #{rake_command}"
   end
 end

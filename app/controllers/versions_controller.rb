@@ -27,7 +27,7 @@ class VersionsController < Base::ProjectSubpage
         @project.set_default_version(@version)
       end
       
-      flash[:success] = "New Application Version was uploaded."
+      flash[:success] = "New #{AppConfig.directory_type} Version was uploaded."
       redirect_to @project
     else
       flash[:error] = "Unable to Save Version. " + @version.errors.map{|error| "#{error.first.capitalize} #{error.last}"}.join(",")

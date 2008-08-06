@@ -62,7 +62,7 @@ class ScreenshotsController < Base::ProjectSubpage
   def set
     @screenshot = get_screenshot    
     if @screenshot and @screenshot.owned_by?(current_or_anon_user)
-      flash[:success] = "Default Application Screenshot has been updated."
+      flash[:success] = "Default #{AppConfig.directory_type} Screenshot has been updated."
       @project.set_default_screenshot(@screenshot)
     else
       flash[:error] = "Unable to set default screenshot."

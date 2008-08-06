@@ -5,11 +5,11 @@
     - if activities.size > 0
       = partial "projects/parts/activity_list", :activities => activities[0...5], :hide_project => true
     - else
-      %p.empty No recent activity for this project.
+      %p.empty== No recent activity for this #{AppConfig.directory_type.downcase}.
   
   - tab("History (#{activities.size})", "all_activity") do
     - if activities.size > 0
       = partial "projects/parts/activity_list", :activities => activities.reverse, :hide_project => true
     - else
-      %p.empty No recent activity for this project.
+      %p.empty== No recent activity for this #{AppConfig.directory_type.downcase}.
   

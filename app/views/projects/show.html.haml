@@ -27,8 +27,10 @@
         = partial "projects/parts/about_project", :project => @project
       
       = partial "projects/tabs/screenshots", :object => @project.screenshots
-      = partial "projects/tabs/versions", :object => @project.versions
-      = partial "projects/tabs/hosted_applications", :object => @project.hosted_instances
+      - if AppConfig.show_versions
+        = partial "projects/tabs/versions", :object => @project.versions
+      - if AppConfig.show_applications
+        = partial "projects/tabs/hosted_applications", :object => @project.hosted_instances
       - if @project.is_submitted?
         = partial "projects/tabs/project_activity", :activities => @latest_activities
       = approve_button(@project)

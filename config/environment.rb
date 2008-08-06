@@ -136,12 +136,15 @@ Rails::Initializer.run do |config|
   # Allows easier subdomain selection
   # ------
   # config.github_gem 'jcnetdev-subdomain-fu', :version => '>= 0.0.2'
-  
+
+  config.after_initialize do
+    if defined? ExceptionNotifier
+      ExceptionNotifier.exception_recipients = AppConfig.contact_email
+      ExceptionNotifier.delivery_method = :smtp
+    end
+  end
+
 end
 
 ActionMailer::Base.delivery_method = :smtp
 
-if defined? ExceptionNotifier
-  ExceptionNotifier.exception_recipients = %w(opensourcerails@gmail.com)
-  ExceptionNotifier.delivery_method = :smtp
-end

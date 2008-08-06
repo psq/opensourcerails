@@ -9,8 +9,8 @@
   #body_right
     = partial "layouts/searchbox"
     #submit_app
-      = link_to_image "template/submit_app.gif", "#", |
-                      :label => "Submit a New Application", |
+      = link_to_image "#{AppConfig.submit_image}", "#", |
+                      :label => "Submit a New #{AppConfig.directory_type}", |
                       :class => "submit toggle", :rel => "#new_project_tab_form" |
     
     = render :partial => "projects/parts/mini_form"

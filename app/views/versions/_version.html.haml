@@ -21,5 +21,5 @@
             = link_to "delete", project_version_url(version.project, version), :method => :delete, :confirm => "Are you sure you want to delete this version?"
             - unless version.is_default?
               |
-              = link_to "set as default", set_project_version_url(version.project, version), :method => :put, :confirm => "Are you sure you want to set this version as the default download for this application?"
+              = link_to "set as default", set_project_version_url(version.project, version), :method => :put, :confirm => "Are you sure you want to set this version as the default download for this #{AppConfig.directory_type.downcase}?"
     

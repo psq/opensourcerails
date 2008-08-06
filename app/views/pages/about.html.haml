@@ -8,23 +8,23 @@
         %h2.left About OpenSourceRails.com
         = clear
         .entry{:style => "font-size: 20px;color:#666"}
-          %p Open Source Rails is dedicated to keeping track of the latest and greatest Ruby on Rails open source applications.
+          %p== #{AppConfig.about}
           %p 
-            If you are the author of one of the projects listed on the site and want admin access over your project, 
+            If you are the author of one of the site listed here and would like admin access over your site, 
             register a user and then email us 
-            = mail_to "opensourcerails@gmail.com", "here", :encode => "javascript"
+            = mail_to "#{AppConfig.contact_email}", "here", :encode => "javascript"
             and we'll grant you project ownership access.    
           %p 
-            Feature request and bug can be 
+            Feature requests and bugs can be 
             sent
-            = mail_to "opensourcerails@gmail.com", "here.", :encode => "javascript"
+            = mail_to "#{AppConfig.contact_email}", "here.", :encode => "javascript"
           
   #body_right
     = partial "layouts/about_us", :force_show => true
     #about_tabs
       - tabs do
         - tab "Credits", "credits_tab" do
-          %p{:style => "margin-bottom: 0px"} Open Source Rails uses the following freely available design components.
+          %p{:style => "margin-bottom: 0px"}== #{AppConfig.site_name} uses the following freely available design components.
           %ul
             %li
               Vector Icons by
@@ -42,7 +42,7 @@
               = link_to "Nick Stakenburg", "http://www.nickstakenburg.com"
 
         - tab "Plugins", "plugins_tab" do
-          %p{:style => "margin-bottom: 0px"} Open Source Rails proudly uses and abuses the following Rails plugins:
+          %p{:style => "margin-bottom: 0px"}== #{AppConfig.site_name} proudly uses and abuses the following Rails plugins:
           %ul
             %li
               = link_to "AttachmentFu", "http://svn.techno-weenie.net/projects/plugins/attachment_fu/"
@@ -67,10 +67,14 @@
           %p Thanks!
             
       .credits
-        %h2 Developed and Hosted by:
+        %h2 Developed by:
         #ads
           %ul
-            %li= link_to_image("yoda_dude.png", "http://www.railsjedi.com", :label => "RailsJedi")
+            %li
+              = link_to_image("yoda_dude.png", "http://www.railsjedi.com", :label => "RailsJedi")
+            = clear
+            %li
+              = link_to("nanoRAILS", "http://blog.nanorails.com")
             = clear
 
 

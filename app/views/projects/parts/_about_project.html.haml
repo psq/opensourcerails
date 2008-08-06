@@ -30,6 +30,12 @@
             = br
             = link_to h(project.homepage_url), project.homepage_url
 
+          - unless project.feed_url.blank?
+            = br
+            %strong Feed:
+            = br
+            = link_to h(project.feed_url), project.feed_url
+
           - unless project.source_url.blank?
             = br
             %strong Source Code:

@@ -1,7 +1,7 @@
 - projects = [] unless local_assigns[:projects]
 
 - if projects.empty?
-  %p You haven't bookmarked any applications.
+  %p== You haven't bookmarked any #{AppConfig.directory_type.downcase}s.
 - else
   -# list my projects
   = partial "projects/parts/list", :projects => @my_projects

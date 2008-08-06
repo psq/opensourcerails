@@ -10,3 +10,6 @@ public/downloads
 public/screenshots
 public/images/screenshots
 db/restore.sql
+config/database.yml
+config/app_config.yml
+app/views/layouts/_tracking.erb.html

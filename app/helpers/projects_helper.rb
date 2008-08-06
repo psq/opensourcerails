@@ -74,7 +74,7 @@ module ProjectsHelper
   def bookmark_mini(project)
     haml_tag :span, :class => "bookmark-mini" do
       # Add Bookmark Button
-      bookmark_count = pluralize(project.bookmarks.size, "person")+" bookmarked this application"
+      bookmark_count = pluralize(project.bookmarks.size, "person")+" bookmarked this #{AppConfig.directory_type.downcase}"
       if current_or_anon_user.bookmarked?(project)
         puts link_to_image("favorite-mini.png", project_bookmark_url(project), :method => :delete, :title => bookmark_count, :class => "bookmark-button remove")
       else
@@ -111,7 +111,7 @@ module ProjectsHelper
     if collection.nil? or collection.empty?
       inner_html = capture_haml(&block) if block_given?
       
-      haml_tag(:p, "There are no #{name} currently associated with this application. #{inner_html}", :class => "empty")
+      haml_tag(:p, "There are no #{name} currently associated with this #{AppConfig.directory_type.downcase}. #{inner_html}", :class => "empty")
       
       
     end
@@ -145,7 +145,7 @@ module ProjectsHelper
         puts link_to(image_tag("big-approve-button.png"),
                         approve_project_url(@project), 
                         :method => :put,
-                        :confirm => "This will promote the application to the gallery.")
+                        :confirm => "This will promote the #{AppConfig.directory_type.downcase} to the gallery.")
       end
     end
   end

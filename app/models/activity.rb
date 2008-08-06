@@ -98,9 +98,9 @@ class Activity < ActiveRecord::Base
     a.action_name = "updated" if is_updated
     a.action_name = "deleted" if is_deleted
     
-    a.midsentence = "a new application:" if is_new
-    a.midsentence = "the application details of" if is_updated
-    a.midsentence = "the application:" if is_deleted
+    a.midsentence = "a new #{AppConfig.directory_type.downcase}:" if is_new
+    a.midsentence = "the #{AppConfig.directory_type.downcase} details of" if is_updated
+    a.midsentence = "the #{AppConfig.directory_type.downcase}:" if is_deleted
     
     a.project_name = project.title
     a.project_id = project.id

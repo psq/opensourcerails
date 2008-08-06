@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20080728120230) do
+ActiveRecord::Schema.define(:version => 20080806062958) do
 
   create_table "activities", :force => true do |t|
     t.datetime "created_at"
@@ -96,6 +96,7 @@ ActiveRecord::Schema.define(:version => 20080728120230) do
     t.integer  "screenshots_count",      :limit => 11,                                :default => 0
     t.integer  "instructions_count",     :limit => 11,                                :default => 0
     t.datetime "last_changed"
+    t.string   "feed_url"
   end
 
   create_table "ratings", :force => true do |t|

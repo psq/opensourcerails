@@ -3,9 +3,9 @@
 
 #new_project_tab_form.hidden
   - right_box "add" do
-    %h3.add Submit a New Application
+    %h3.add== Submit a New #{AppConfig.directory_type}
     - build_form_for project, :html => {:class => "mini-form"} do |f|
-      = f.text_field :title, :label => "Application Name"
+      = f.text_field :title, :label => "#{AppConfig.directory_type} Name"
       = f.text_field :short_description, :label => "Short Description"
   
       = f.check_box :is_creator, :label => "Is it yours?", :field => {:class => "left"}, :separator => ""
