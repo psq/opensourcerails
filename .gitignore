@@ -12,4 +12,4 @@ public/images/screenshots
 db/restore.sql
 config/database.yml
 config/app_config.yml
-app/views/layouts/_tracking.erb.html
+app/views/layouts/_tracking.html.erb
