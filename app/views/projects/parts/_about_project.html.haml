@@ -26,15 +26,11 @@
 
           - unless project.homepage_url.blank?
             = br
-            %strong Home Page:
-            = br
-            = link_to h(project.homepage_url), project.homepage_url
+            = link_to h("Home Page"), project.homepage_url
 
           - unless project.feed_url.blank?
             = br
-            %strong Feed:
-            = br
-            = link_to h(project.feed_url), project.feed_url
+            = link_to h("Feed"), project.feed_url
 
           - unless project.source_url.blank?
             = br
