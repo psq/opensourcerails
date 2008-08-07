@@ -1,9 +1,20 @@
-Welcome to <%= AppConfig.site_name %>. Here is your login information.
-
-  Username: <%= @user.login %>
-  Password: <%= @user.password %>
+Thank you so much for registering with <%= AppConfig.site_name %>.
 
 <% if AppConfig.require_email_activation -%>
-In order to log in, you'll need to first activate your account:
+You're almost ready to get started, but first we need you to activate your
+account by clicking on the link below:
   <%= @url %>
-<% end -%>
+
+You will then be able to log into your account using this login:
+<% else%>
+You can log into your account using this login:
+!<% end -%>
+
+
+Username: <%= @user.login %>
+Password: <%= @user.password %>
+
+Best regards,
+<%= AppConfig.site_maintainer %>
+<%= AppConfig.site_name %> maintainer.
+<%= AppConfig.site_url %>

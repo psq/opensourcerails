@@ -3,7 +3,7 @@
 # ------------
 set :application, "home-chefs.com"
 set :repository, "git@github.com:psq/opensourcerails.git"
-set :server_name, "www.home-chefs.com"
+set :server_name, "home-chefs.com"
 
 set :scm, "git"
 set :checkout, "export" 
@@ -15,8 +15,8 @@ set :apache_site_folder, "/etc/apache2/sites-enabled"
 
 set :keep_releases, 3
 
-set :user, 'deploy'
-set :runner, 'deploy'
+set :user, 'psq'
+set :runner, 'psq'
 
 # =============================================================================
 # You shouldn't have to modify the rest of these
@@ -27,9 +27,6 @@ role :app, server_name
 role :db,  server_name, :primary => true
 
 set :use_sudo, false
-
-# saves space by only keeping last 3 when running cleanup
-set :keep_releases, 3 
 
 ssh_options[:paranoid] = false
 
@@ -160,6 +157,13 @@ after "deploy:update_code", "localize:install_gems"
 after "deploy:update_code", "localize:copy_shared_configurations"
 after "deploy:update_code", "localize:upload_folders"
 
+namespace :deploy do
+  desc "start"
+  task :start do
+    #no call to script/spin
+  end
+end
+
 namespace :localize do
   desc "copy shared configurations to current"
   task :copy_shared_configurations, :roles => [:app] do
@@ -167,10 +171,29 @@ namespace :localize do
       run "ln -nsf #{shared_path}/config/#{f} #{release_path}/config/#{f}"
     end
     %w[logo-hc.png].each do |f|
-      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/public/images/#{f}"
+      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/public/images/template/#{f}"
     end
     %w[_tracking.html.erb].each do |f|
-      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/app/views/layout/#{f}"
+      run "ln -nsf #{shared_path}/config/#{f} #{release_path}/app/views/layouts/#{f}"
+    end
+    %w[rails gems].each do |f|
+      run "ln -nsf #{shared_path}/vendor/#{f} #{release_path}/vendor/#{f}"
+    end
+    %w[haml-2.0.2
+        jcnetdev-active_record_without_table-1.1
+        jcnetdev-acts_as_list-1.0.20080704
+        jcnetdev-acts_as_state_machine-2.1.20080704
+        jcnetdev-app_config-1.2
+        jcnetdev-better_partials-1.0.200807042
+        jcnetdev-paperclip-1.1
+        jcnetdev-seed-fu-1.0.200807042
+        jcnetdev-validates_as_email_address-1.11
+        jcnetdev-will_paginate-2.3.21
+        neorails-form_fu-0.51
+        neorails-view_fu-0.4.20080711
+        right_aws-1.7.3
+        right_http_connection-1.2.3].each do |f|
+      run "ln -nsf #{shared_path}/vendor/plugins/#{f} #{release_path}/vendor/plugins/#{f}"
     end
   end
   

@@ -23,14 +23,6 @@
 
     - tab "#{AppConfig.top_kind}", "top_counts" do
       .counts.first
-        %strong Top Downloaded
-        %ul
-          - @top_downloaded.each do |project|
-            %li
-              = link_to project.title, project
-              %span.stat= pluralize(project.downloads, "download")
-      
-      .counts
         %strong Top Bookmarked
         %ul
           - @top_bookmarked.each do |project|
@@ -38,3 +30,12 @@
               = link_to project.title, project
               %span.stat== Bookmarked by #{pluralize(project.bookmarks_count, "person")}
 
+      - if AppConfig.show_versions
+        .counts
+          %strong Top Downloaded
+          %ul
+            - @top_downloaded.each do |project|
+              %li
+                = link_to project.title, project
+                %span.stat= pluralize(project.downloads, "download")
+      
