@@ -5,11 +5,11 @@
     = title :site => AppConfig.site_name
     = meta_tags
     - if AppConfig.meta_key1 != ""
-      %meta{"#{AppConfig.meta_key1}" => "#{AppConfig.meta_content1}"}
+      %meta{"name" => "#{AppConfig.meta_key1}", "content" => "#{AppConfig.meta_content1}"}
     - if AppConfig.meta_key2 != ""
-      %meta{"#{AppConfig.meta_key2}" => "#{AppConfig.meta_content2}"}
+      %meta{"name" => "#{AppConfig.meta_key2}", "content" => "#{AppConfig.meta_content2}"}
     - if AppConfig.meta_key3 != ""
-      %meta{"#{AppConfig.meta_key3}" => "#{AppConfig.meta_content3}"}
+      %meta{"name" => "#{AppConfig.meta_key3}", "content" => "#{AppConfig.meta_content3}"}
     
     = stylesheets
     = javascripts
