@@ -2,6 +2,14 @@
 %html{html_attrs}
   %head
     %meta{"http-equiv" => "Content-type", "content" => "text/html; charset=utf-8"}
+    %meta{"description" => "#{AppConfig.meta_description}"}
+    %meta{"keywords" => "#{AppConfig.meta_keywords}"}
+    - if AppConfig.meta_key1 != ""
+      %meta{"#{AppConfig.meta_key1}" => "#{AppConfig.meta_content1}"}
+    - if AppConfig.meta_key2 != ""
+      %meta{"#{AppConfig.meta_key2}" => "#{AppConfig.meta_content2}"}
+    - if AppConfig.meta_key3 != ""
+      %meta{"#{AppConfig.meta_key3}" => "#{AppConfig.meta_content3}"}
     = title :site => AppConfig.site_name
     = meta_tags
     
